@@ -1,0 +1,67 @@
+name: Lintly-Flake8
+author: Grant McConnaughey
+description: Lint Python projects with flake8 and create Pull Request reviews with linting violations.
+
+inputs:
+  token:
+    description: The GitHub API token to use for creating PR reviews
+    required: true
+  python_root_list:
+    description: "A list of all paths to test"
+    required: false
+    default: "."
+  requirements_file:
+    description: "The path of a file containing requirements to install"
+    required: false
+    default: ""
+  use_pylint:
+    description: "Use Pylint"
+    required: false
+    default: true
+  use_flake8:
+    description: "Use Flake8"
+    required: false
+    default: true
+  use_mypy:
+    description: "Use mypy"
+    required: false
+    default: true
+  use_isort:
+    description: "Use isort"
+    required: false
+    default: true
+  extra_pylint_options:
+    description: "Extra options: pylint $(extra-pylint-options) $(python-root-list)"
+    required: false
+    default: ""
+  extra_flake8_options:
+    description: "Extra options: flake8 $(extra-flake8-options) $(python-root-list)"
+    required: false
+    default: ""
+  extra_mypy_options:
+    description: "Extra options: mypy $(extra-mypy-options) $(python-root-list)"
+    required: false
+    default: ""
+  extra_isort_options:
+    description: "Extra options: isort -rc $(extra-isort-options) $(python-root-list) -c --diff "
+    required: false
+    default: ""
+
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    ${{ inputs.token }}
+    ${{ inputs.python-root-list }}
+    ${{ inputs.use-pylint }}
+    ${{ inputs.use-flake8 }}
+    ${{ inputs.use-mypy }}
+    ${{ inputs.use-isort }}
+    ${{ inputs.extra-pylint-options }}
+    ${{ inputs.extra-flake8-options }}
+    ${{ inputs.extra-mypy-options }}
+    ${{ inputs.extra-isort-options }}
+
+branding:
+  icon: code
+  color: gray-dark
